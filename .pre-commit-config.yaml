@@ -35,3 +35,4 @@ repos:
     hooks:
       - id: flake8
         args: [--config, "app/.flake8"]
+        exclude: migrations/
