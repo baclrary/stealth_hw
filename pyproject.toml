@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = "Test task for Stealth Startup"
+authors = ["Baclrary <ihorprotsak@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.10"
+fastapi = "^0.109.0"
+uvicorn = { extras = ["standard"], version = "^0.26.0" }
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.12.1"
+flake8 = "^7.0.0"
+isort = "^5.13.2"
+pre-commit = "^3.6.0"
+pycln = "^2.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

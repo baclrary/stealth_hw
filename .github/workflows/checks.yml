@@ -1,0 +1,24 @@
+name: Pre-commit Checks
+
+on: [push]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+
+    - name: Install pre-commit
+      run: |
+        pip install pre-commit
+
+    - name: Run pre-commit
+      run: |
+        pre-commit install
+        pre-commit run --all-files
