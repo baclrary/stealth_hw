@@ -1,5 +1,6 @@
 from auth.auth import auth_backend, current_active_user, fastapi_users
 from auth.schemas import UserCreate, UserRead
+from database import init_db
 from fastapi import Depends, FastAPI
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
@@ -50,5 +51,6 @@ app.include_router(products_router)
 
 @app.on_event("startup")
 async def startup():
+    await init_db()
     redis = aioredis.from_url("redis://localhost")
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")

@@ -7,7 +7,8 @@ from celery import Celery
 
 from app.config import SMTP_HOST, SMTP_PASSWORD, SMTP_PORT, SMTP_USER
 
-celery = Celery("tasks", broker="redis://127.0.0.1:6379/0")
+# celery = Celery("tasks", broker="redis://127.0.0.1:6379/0")
+celery = Celery("tasks", broker="redis://redis:6379/0")
 celery.conf.broker_connection_retry_on_startup = True
 
 

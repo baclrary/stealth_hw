@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/stealth_hw
+    environment:
+      - SMTP_HOST=mailhog
+      - SMTP_PORT=1025
+      - SMTP_USER=testsmtpuser@example.com
+      - SMTP_PASSWORD=testpass
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=stealth_db
+      - DB_USER=postgres
+      - DB_PASS=postgres
+      - SECRET=szGnU-tPEMdtTliUmEulcERcXMxAqAf7a8MO81_fWok
+    depends_on:
+      - db
+      - redis
+      - mailhog
+    command: sh -c "poetry run alembic upgrade head && poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000"
+
+  db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=stealth_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  redis:
+    image: redis:latest
+
+  celery_worker:
+    build: .
+    command: poetry run celery -A app.tasks.tasks:celery worker
+    environment:
+      - SMTP_HOST=mailhog
+      - SMTP_PORT=1025
+      - SMTP_USER=testsmtpuser@example.com
+      - SMTP_PASSWORD=testpass
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=stealth_db
+      - DB_USER=postgres
+      - DB_PASS=postgres
+      - SECRET=szGnU-tPEMdtTliUmEulcERcXMxAqAf7a8MO81_fWok
+    depends_on:
+      - db
+      - redis
+      - mailhog
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "8026:8025"
+
+volumes:
+  postgres_data:
