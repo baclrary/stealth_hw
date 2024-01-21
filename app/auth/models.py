@@ -2,7 +2,6 @@ from datetime import datetime
 
 from fastapi_users.db import SQLAlchemyBaseUserTable
 from sqlalchemy import (
-    JSON,
     TIMESTAMP,
     Boolean,
     Column,
@@ -21,7 +20,6 @@ roles = Table(
     metadata,
     Column("id", Integer, primary_key=True),
     Column("name", String, nullable=False, unique=True),
-    Column("permissions", JSON),
 )
 
 users = Table(

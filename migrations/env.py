@@ -10,7 +10,6 @@ from sqlalchemy import engine_from_config, pool
 
 from app.auth.models import metadata as auth_metadata
 from app.config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
-from app.orders.models import order_item_metadata, orders_metadata
 from app.products.models import metadata as products_metadata
 
 # this is the Alembic Config object, which provides
@@ -32,7 +31,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = [auth_metadata, products_metadata, orders_metadata, order_item_metadata]
+target_metadata = [auth_metadata, products_metadata]
 # target_metadata = [auth_metadata, products_metadata, metadata_orders, metadata_order_item]
 
 # other values from the config, defined by the needs of env.py,
